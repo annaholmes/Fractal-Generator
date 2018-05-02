@@ -1,4 +1,8 @@
 
+-- C Curve: ./FractalMaker -o fn.svg -w 800 -n 6 -x "scale 0.5 rotate -90 continue continue rotate 90"
+-- Heighway: ./FractalMaker -o fn.svg -w 800 -n 12 -a -x "scale 0.7 rotate -45 reverse rotate 225"
+-- Koch: ./FractalMaker -o fn.svg -w 800 -n 7 -x "scale 0.3334 continue rotate 60 rotate -60 continue"
+
 {-# LANGUAGE NoMonomorphismRestriction #-}
 {-# LANGUAGE TypeFamilies              #-}
 {-# LANGUAGE NoMonomorphismRestriction #-}
@@ -53,10 +57,7 @@ cCurve2 curves =  (curves # rotate ((-90) @@ deg)
                                 <> curves 
                                 <> curves
                                 <> curves # rotate (90 @@ deg)) # scale 0.5
--- )  (curveTest curves
---              <> curves 
---              <> curves 
---              <> curves # rotateBy (1/4)) # scale (1/2) 
+
 
 dragon trail = (trail # rotate (-45.0 @@ deg)
                <> trail # rotate (225.0 @@ deg)
@@ -121,7 +122,7 @@ test a = case runParser parseScale a of
     Nothing -> Nothing
     (Just (Scale x, s)) -> Just x
 
-fract (FractOpts n showAll instructs)= case showAll of 
+fract (FractOpts n showAll instructs) = case showAll of 
                                 True -> (fractal (toEvalList instructs)
                                         # take n
                                         # sameBoundingRect
