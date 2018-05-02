@@ -1,5 +1,5 @@
 {-# LANGUAGE GADTs #-}
-module AParser (Parser, runParser, oneOrMore, spaces, ident, satisfy, char, parseNum, string, posInt, Functor (..), Applicative(..), Alternative(..)) where
+module AParser (Parser, runParser, oneOrMore, spaces, ident, satisfy, char, stringParser, parseNum, string, posInt, Functor (..), Applicative(..), Alternative(..)) where
 
 
 import           Data.Char
@@ -38,9 +38,7 @@ Nothing
 *Parser> runParser (char 'x') "xyz"
 Just ('x',"yz")
 -}
-string :: String -> Parser String
-string [] = pure []
-string (c:cs) = char c *> string cs
+
 
 -- For convenience, I've also provided a parser for positive
 -- integers.
@@ -51,6 +49,21 @@ posInt = Parser f
       | null ns   = Nothing
       | otherwise = Just (read ns, rest)
       where (ns, rest) = span isDigit xs
+
+
+-- TODO New work is here: 
+
+stringParser :: Parser String
+stringParser = Parser f
+  where
+    f xs
+      | null ns   = Nothing
+      | otherwise = Just (read ns, rest)
+      where (ns, rest) = span isAlpha xs
+
+string :: String -> Parser String
+string [] = pure []
+string (c:cs) = char c *> string cs 
 
 -- Returns nothing if contains anything other than digits + one instance of '.' 
 parseDouble :: Parser Double
@@ -63,6 +76,7 @@ parseDouble = Parser f
                           then span isDigit xs 
                           else numSpan xs
 
+-- Dumb helper function to return the full span of a double 
 numSpan :: [Char] -> ([Char], [Char])
 numSpan as = span (\c -> isDigit c || (c == '.')) as
 
