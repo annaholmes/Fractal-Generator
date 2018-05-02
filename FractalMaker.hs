@@ -1,7 +1,10 @@
 
--- C Curve: ./FractalMaker -o fn.svg -w 800 -n 6 -x "scale 0.5 rotate -90 continue continue rotate 90"
--- Heighway: ./FractalMaker -o fn.svg -w 800 -n 12 -a -x "scale 0.7 rotate -45 reverse rotate 225"
--- Koch: ./FractalMaker -o fn.svg -w 800 -n 7 -x "scale 0.3334 continue rotate 60 rotate -60 continue"
+-- C Curve:
+-- ./FractalMaker -o fn.svg -w 800 -n 6 -x "scale 0.5 rotate -90 continue continue rotate 90"
+-- Heighway:
+-- ./FractalMaker -o fn.svg -w 800 -n 12 -a -x "scale 0.7 rotate -45 reverse rotate 225"
+-- Koch: 
+-- ./FractalMaker -o fn.svg -w 800 -n 7 -x "scale 0.3334 continue rotate 60 rotate -60 continue"
 
 {-# LANGUAGE NoMonomorphismRestriction #-}
 {-# LANGUAGE TypeFamilies              #-}
