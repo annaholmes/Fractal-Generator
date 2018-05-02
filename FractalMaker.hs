@@ -1,4 +1,8 @@
 
+-- C Curve: ./FractalMaker -o fn.svg -w 800 -n 6 -x "scale 0.5 rotate -90 continue continue rotate 90"
+-- Heighway: ./FractalMaker -o fn.svg -w 800 -n 12 -a -x "scale 0.7 rotate -45 reverse rotate 225"
+-- Koch: ./FractalMaker -o fn.svg -w 800 -n 7 -x "scale 0.3334 continue rotate 60 rotate -60 continue"
+
 {-# LANGUAGE NoMonomorphismRestriction #-}
 {-# LANGUAGE TypeFamilies              #-}
 {-# LANGUAGE NoMonomorphismRestriction #-}
@@ -53,10 +57,7 @@ cCurve2 curves =  (curves # rotate ((-90) @@ deg)
                                 <> curves 
                                 <> curves
                                 <> curves # rotate (90 @@ deg)) # scale 0.5
--- )  (curveTest curves
---              <> curves 
---              <> curves 
---              <> curves # rotateBy (1/4)) # scale (1/2) 
+
 
 dragon trail = (trail # rotate (-45.0 @@ deg)
                <> trail # rotate (225.0 @@ deg)
@@ -121,7 +122,7 @@ test a = case runParser parseScale a of
     Nothing -> Nothing
     (Just (Scale x, s)) -> Just x
 
-fract (FractOpts n showAll instructs)= case showAll of 
+fract (FractOpts n showAll instructs) = case showAll of 
                                 True -> (fractal (toEvalList instructs)
                                         # take n
                                         # sameBoundingRect
@@ -131,12 +132,21 @@ fract (FractOpts n showAll instructs)= case showAll of
                                         # take n 
                                         # lw medium)) # pad 1.5
 
--- d :: FilePath -> FractOpts -> IO (Diagram B)
--- d file opts = do
---     f <- handleFile file  
---     fract opts f       
+-- d :: FilePath -> FractOpts -> IO (QDiagram B (V B) (N B) Any)
+-- d file (FractOpts n showAll) = do
+--     instructs <- handleFile file  
+--     case showAll of 
+--         True -> (fractal (toEvalList instructs)
+--                 # take n
+--                 # sameBoundingRect
+--                 # gridSnake
+--                 # lw ultraThin) # pad 1.5
+--         False -> head (reverse (fractal (toEvalList instructs)
+--                 # take n 
+--                 # lw medium)) # pad 1.5
+    
 
--- handleFile :: String -> IO String 
+-- handleFile :: FilePath -> IO String 
 -- handleFile f = do
 --      withFile f ReadMode (\handle -> do 
 --          contents <- hGetContents handle    
